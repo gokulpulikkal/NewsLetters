@@ -10,6 +10,8 @@ import SwiftUI
 struct HomeScreen: View {
     var categories: [String] = ["All", "Fiction", "Science", "LifeStyle"]
     @State var selectedCategory = "Fiction"
+    @State private var selectedDate = Date()
+    
     var body: some View {
         AutoHidingHeaderView(content: {
             dummyThumbnails()
@@ -22,7 +24,7 @@ struct HomeScreen: View {
 extension HomeScreen {
     @ViewBuilder
     func customHeader() -> some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 5) {
             HStack {
                 Text("Today")
                     .font(.system(size: 30, weight: .bold))
@@ -45,6 +47,7 @@ extension HomeScreen {
                 }
             }
             .padding(.horizontal)
+            HorizontalDatePicker(selectedDate: $selectedDate)
             categoryViews()
         }
         .padding(.top, safeArea().top + 20)

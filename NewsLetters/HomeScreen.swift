@@ -33,15 +33,15 @@ extension HomeScreen {
                     Button(action: {}, label: {
                         Image(systemName: "magnifyingglass")
                             .resizable()
-                            .frame(width: 25, height: 25)
-                            .fontWeight(.bold)
+                            .frame(width: 20, height: 20)
+                            .fontWeight(.semibold)
                     })
                     .buttonStyle(.plain)
                     Button(action: {}, label: {
                         Image(systemName: "gearshape.fill")
                             .resizable()
-                            .frame(width: 25, height: 25)
-                            .fontWeight(.bold)
+                            .frame(width: 20, height: 20)
+                            .fontWeight(.semibold)
                     })
                     .buttonStyle(.plain)
                 }

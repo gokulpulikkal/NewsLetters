@@ -37,7 +37,6 @@ struct CategorySelectorView<T: Hashable>: View {
                     }, label: {
                         Text(itemTitle(item))
                             .font(.callout)
-                            .fontWeight(.semibold)
                             .foregroundStyle(item == selectedItem ? Color(uiColor: .textColorBW) : Color(UIColor.label))
                             .padding(.vertical, 6)
                             .padding(.horizontal, 12)

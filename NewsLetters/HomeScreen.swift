@@ -24,7 +24,7 @@ extension HomeScreen {
     func customHeader() -> some View {
         VStack(spacing: 0) {
             HStack {
-                Text("NewsLetters")
+                Text("Today")
                     .font(.system(size: 30, weight: .bold))
                 Spacer()
                 HStack(spacing: 18) {
@@ -61,18 +61,21 @@ extension HomeScreen {
             HStack(spacing: 10) {
                 ForEach(categories, id: \.self) { category in
                     Button(action: {
-                        selectedCategory = category
+                        withAnimation {
+                            selectedCategory = category
+                        }
+                        
                     }, label: {
                         Text(category)
                             .font(.callout)
                             .fontWeight(.semibold)
-                            .foregroundStyle(category != selectedCategory ? Color(UIColor.white) : Color(UIColor.black))
+                            .foregroundStyle(category == selectedCategory ? Color(uiColor: .textColorBW) : Color(UIColor.label))
                             .padding(.vertical, 6)
                             .padding(.horizontal, 12)
                             .background {
                                 Capsule()
-                                    .stroke(category == selectedCategory ? .clear : Color(UIColor.label))
-                                    .fill(category == selectedCategory ? Color(UIColor.white) : Color(UIColor.black))
+                                    .stroke(Color(UIColor.label))
+                                    .fill(category == selectedCategory ? Color(uiColor: .fillColorWB) : .clear)
                             }
                     })
                     .buttonStyle(.plain)

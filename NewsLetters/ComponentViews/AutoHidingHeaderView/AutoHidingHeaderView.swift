@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct AutoHidingHeaderView<Content: View, Header: View>: View {
-    
+
     @ViewBuilder let content: Content
     @ViewBuilder let header: Header
-    
+
     @State var headerHeight: CGFloat = 0
     @State var headerOffset: CGFloat = 0
     @State var lastHeaderOffset: CGFloat = 0
     @State var direction: SwipeDirections = .none
     @State var shiftOffset: CGFloat = 0
-    
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             content
@@ -52,6 +52,12 @@ struct AutoHidingHeaderView<Content: View, Header: View>: View {
                     GeometryReader { proxy in
                         if let anchor = value {
                             Color.clear
+                                .onChange(of: proxy[anchor].height) { _, newHeight in
+                                    // Update header height whenever the content size changes
+                                    withAnimation(.easeInOut) {
+                                        headerHeight = newHeight
+                                    }
+                                }
                                 .onAppear {
                                     headerHeight = proxy[anchor].height
                                 }

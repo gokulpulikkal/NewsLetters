@@ -27,7 +27,7 @@ struct CategorySelectorView<T: Hashable>: View {
     }
 
     var body: some View {
-        ScrollView(.horizontal) {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 ForEach(items, id: \.self) { item in
                     Button(action: {
@@ -55,7 +55,8 @@ struct CategorySelectorView<T: Hashable>: View {
                     .buttonStyle(.plain)
                 }
             }
-            .padding(5)
+            .padding(.horizontal)
+            .padding(.vertical, 5)
         }
     }
 }

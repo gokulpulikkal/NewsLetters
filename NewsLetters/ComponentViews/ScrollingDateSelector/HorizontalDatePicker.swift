@@ -28,7 +28,7 @@ struct HorizontalDatePicker: View {
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
+                HStack(spacing: 5) {
                     ForEach(-daysRange...0, id: \.self) { dayOffset in
                         let date = calendar.date(byAdding: .day, value: dayOffset, to: Date()) ?? Date()
                         let isSelected = calendar.isDate(date, inSameDayAs: selectedDate)

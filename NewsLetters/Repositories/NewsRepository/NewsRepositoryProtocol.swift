@@ -9,7 +9,7 @@ import Foundation
 
 protocol NewsRepositoryProtocol {
     
-    func getCategoriesOfNews(on date: Date) async throws
+    func getCategoriesOfNews(on date: Date) async throws -> [String]
     
-    func getNewsItems(on date: Date, for category: String) async throws
+    func getNewsItems(on date: Date) async throws -> [NewsItem]
 }

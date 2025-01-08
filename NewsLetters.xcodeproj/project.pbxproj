@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4B86CAFD2D2E12A500FC1205 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4B86CAFC2D2E12A500FC1205 /* GoogleService-Info.plist */; };
+		4B86CB012D2E1CAD00FC1205 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 4B86CB002D2E1CAD00FC1205 /* FirebaseCore */; };
+		4B86CB032D2E1CAD00FC1205 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4B86CB022D2E1CAD00FC1205 /* FirebaseFirestore */; };
+		4B86CB112D2EDBD300FC1205 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 4B86CB102D2EDBD300FC1205 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		4B86CA052D2C863900FC1205 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +34,8 @@
 		4B86C9F32D2C863800FC1205 /* NewsLetters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsLetters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B86CA042D2C863900FC1205 /* NewsLettersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsLettersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B86CA0E2D2C863900FC1205 /* NewsLettersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsLettersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B86CAFC2D2E12A500FC1205 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4B86CB102D2EDBD300FC1205 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +61,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B86CB012D2E1CAD00FC1205 /* FirebaseCore in Frameworks */,
+				4B86CB032D2E1CAD00FC1205 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +86,8 @@
 		4B86C9EA2D2C863800FC1205 = {
 			isa = PBXGroup;
 			children = (
+				4B86CB102D2EDBD300FC1205 /* .gitignore */,
+				4B86CAFC2D2E12A500FC1205 /* GoogleService-Info.plist */,
 				4B86C9F52D2C863800FC1205 /* NewsLetters */,
 				4B86CA072D2C863900FC1205 /* NewsLettersTests */,
 				4B86CA112D2C863900FC1205 /* NewsLettersUITests */,
@@ -112,6 +125,8 @@
 			);
 			name = NewsLetters;
 			packageProductDependencies = (
+				4B86CB002D2E1CAD00FC1205 /* FirebaseCore */,
+				4B86CB022D2E1CAD00FC1205 /* FirebaseFirestore */,
 			);
 			productName = NewsLetters;
 			productReference = 4B86C9F32D2C863800FC1205 /* NewsLetters.app */;
@@ -195,6 +210,9 @@
 			);
 			mainGroup = 4B86C9EA2D2C863800FC1205;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4B86CAFF2D2E1CAD00FC1205 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4B86C9F42D2C863800FC1205 /* Products */;
 			projectDirPath = "";
@@ -212,6 +230,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B86CB112D2EDBD300FC1205 /* .gitignore in Resources */,
+				4B86CAFD2D2E12A500FC1205 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +611,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4B86CAFF2D2E1CAD00FC1205 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4B86CB002D2E1CAD00FC1205 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B86CAFF2D2E1CAD00FC1205 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		4B86CB022D2E1CAD00FC1205 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B86CAFF2D2E1CAD00FC1205 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4B86C9EB2D2C863800FC1205 /* Project object */;
 }

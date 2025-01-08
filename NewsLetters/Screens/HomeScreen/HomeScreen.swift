@@ -18,6 +18,14 @@ struct HomeScreen: View {
         }, header: {
             customHeader()
         })
+        .task {
+            let newsRepo = NewsRepository()
+            do {
+                try await newsRepo.getCategoriesOfNews(on: .now)
+            } catch {
+                print("Error on getting categories")
+            }
+        }
     }
 }
 

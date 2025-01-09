@@ -21,6 +21,7 @@ extension HomeScreen {
         var filteredNewsItems: [NewsItem]
         var selectedCategory: String
         var selectedDate: Date
+        var showProgressIndicator: Bool = true
 
         private var prevSelectedDate: Date?
 
@@ -50,11 +51,13 @@ extension HomeScreen {
                 return
             }
             prevSelectedDate = selectedDate
+            showProgressIndicator = true
             Task {
                 await updateCategories()
                 if !categories.isEmpty { // no need to try getting news items if categories are empty
                     await updateNewsItems()
                 }
+                showProgressIndicator = false
             }
         }
 

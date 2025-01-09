@@ -13,11 +13,14 @@ struct HomeScreen: View {
     var viewModel = ViewModel()
 
     var body: some View {
-        AutoHidingHeaderView(content: {
-            newsList()
-        }, header: {
-            customHeader()
-        })
+        ZStack {
+            AutoHidingHeaderView(content: {
+                newsList()
+            }, header: {
+                customHeader()
+            })
+            loadingIndicator
+        }
         .onChange(of: viewModel.selectedDate) {
             viewModel.updateCategoriesAnNewsItems()
         }
@@ -28,6 +31,24 @@ struct HomeScreen: View {
 }
 
 extension HomeScreen {
+
+    var loadingIndicator: some View {
+        VStack {
+            Image(
+                systemName: viewModel.categories.isEmpty && !viewModel.showProgressIndicator
+                    ? "exclamationmark.octagon.fill"
+                    : "text.page.badge.magnifyingglass"
+            )
+            .symbolEffect(.disappear, isActive: !viewModel.showProgressIndicator && !viewModel.categories.isEmpty)
+            .symbolEffect(.bounce.up.byLayer, isActive: viewModel.showProgressIndicator)
+            .font(.system(size: 60))
+            Text("No Newsletters found for the date")
+                .opacity(viewModel.categories.isEmpty && !viewModel.showProgressIndicator ? 1 : 0)
+                .bold()
+                .font(.system(size: 20))
+        }
+    }
+
     @ViewBuilder
     func customHeader() -> some View {
         VStack(spacing: 10) {

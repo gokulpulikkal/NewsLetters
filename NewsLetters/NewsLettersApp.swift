@@ -25,6 +25,7 @@ struct NewsLettersApp: App {
     var body: some Scene {
         WindowGroup {
             LaunchView()
+                .modifier(DarkModeViewModifier())
         }
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeScreen: View {
 
     @State var viewModel = ViewModel()
-    @State private var vibrateOnRing = false
+    @AppStorage("isDarkMode") var isDarkMode = true
     @State private var isSettingMenuPresented = false
 
     var body: some View {
@@ -124,11 +124,12 @@ extension HomeScreen {
                                 .foregroundStyle(Color(UIColor.primaryAccent))
                         })
                         .popover(isPresented: $isSettingMenuPresented) {
-                            Toggle("", isOn: $vibrateOnRing)
+                            Toggle("", isOn: $isDarkMode)
                                 .toggleStyle(DarkModeToggleStyle())
                                 .scaleEffect(0.8)
                                 .padding()
                                 .presentationCompactAdaptation(.popover)
+                                .withDarkMode()
                         }
                     }
                     .transition(.move(edge: .trailing).combined(with: .opacity))

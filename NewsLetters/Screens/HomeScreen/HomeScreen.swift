@@ -82,7 +82,7 @@ extension HomeScreen {
                     }
                     .transition(.move(edge: .trailing).combined(with: .opacity))
                 } else {
-                    Text("Today")
+                    Text("Newsletters")
                         .font(.system(size: 30, weight: .bold))
                         .transition(.move(edge: .leading).combined(with: .opacity))
                     Spacer()

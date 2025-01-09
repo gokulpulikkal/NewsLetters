@@ -8,10 +8,23 @@
 import SwiftUI
 
 struct NewsDetailsScreen: View {
-    let newsItem: NewsItem
+    
+    @State
+    var viewModel: ViewModel
+    
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             newsDetailsView
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Realated")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundStyle(Color(uiColor: .primaryText))
+                    Spacer()
+                }
+                NewsListView(newsItems: viewModel.getRelatedNewsItems())
+            }
+            .padding(.horizontal)
         }
     }
 }
@@ -19,7 +32,7 @@ struct NewsDetailsScreen: View {
 extension NewsDetailsScreen {
     var newsDetailsView: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(newsItem.heading)
+            Text(viewModel.newsItem.heading)
                 .font(.system(size: 25))
                 .lineSpacing(5)
                 .fontWeight(.heavy)
@@ -27,16 +40,16 @@ extension NewsDetailsScreen {
                 .foregroundStyle(Color(uiColor: .primaryText))
 
             HStack {
-                Text("\(newsItem.timeToRead == 0 ? 1 : newsItem.timeToRead) min read")
+                Text("\(viewModel.newsItem.timeToRead == 0 ? 1 : viewModel.newsItem.timeToRead) min read")
                     .font(.callout)
                 Text("•")
                     .font(.system(size: 25))
-                Text(newsItem.category)
+                Text(viewModel.newsItem.category)
                     .font(.callout)
             }
             .foregroundColor(Color(uiColor: .primaryText).opacity(0.7))
 
-            Text(newsItem.detailedNews)
+            Text(viewModel.newsItem.detailedNews)
                 .font(.system(size: 19))
                 .lineSpacing(5)
                 .multilineTextAlignment(.leading)
@@ -56,19 +69,40 @@ extension NewsDetailsScreen {
                 }
             })
             .buttonStyle(.plain)
+            .padding(.vertical)
         }
-        .padding(.horizontal)
+        .padding()
     }
 }
 
 #Preview {
-    NavigationStack {
-        NewsDetailsScreen(newsItem: NewsItem(
+    NewsDetailsScreen(viewModel: NewsDetailsScreen.ViewModel(newsItem: NewsItem(
+        category: "Technology",
+        detailedNews: "Wallet drainer malware stole nearly $500 million in cryptocurrency from over 332,000 victims in 2024, a 67% increase from 2023. The highest activity was in Q1 with $187.2 million stolen, though the largest single theft ($55.48 million) occurred in August.",
+        heading: "WALLET DRAINER MALWARE USED TO STEAL $500 MILLION IN CRYPTOCURRENCY IN 2024",
+        link: "https://www.securityweek.com/wallet-drainer-malware-used-to-steal-500-million-in-cryptocurrency-in-2024/?utm_source=tldrinfosec",
+        timeToRead: 2
+    ), relatedNewsItems: [
+        NewsItem(
             category: "Technology",
             detailedNews: "Wallet drainer malware stole nearly $500 million in cryptocurrency from over 332,000 victims in 2024, a 67% increase from 2023. The highest activity was in Q1 with $187.2 million stolen, though the largest single theft ($55.48 million) occurred in August.",
             heading: "WALLET DRAINER MALWARE USED TO STEAL $500 MILLION IN CRYPTOCURRENCY IN 2024",
             link: "https://www.securityweek.com/wallet-drainer-malware-used-to-steal-500-million-in-cryptocurrency-in-2024/?utm_source=tldrinfosec",
             timeToRead: 2
-        ))
-    }
+        ),
+        NewsItem(
+            category: "Technology",
+            detailedNews: "Gokul Is great ksjdfn bklsdjfbnkaejfnbgka",
+            heading: "Gokul USED TO STEAL $500 MILLION IN CRYPTOCURRENCY IN 2024",
+            link: "https://www.securityweek.com/wallet-drainer-malware-used-to-steal-500-million-in-cryptocurrency-in-2024/?utm_source=tldrinfosec",
+            timeToRead: 6
+        ),
+        NewsItem(
+            category: "Technology",
+            detailedNews: "sijhfnbglsijdfnbvlsfjngbliwjsrngbilsgjnedblijsfgibjsrigkbjnsikbgjiskgr",
+            heading: "onakefjnvksdjfnmvikwsnfkbvjnkidfgjnbkvjdnfgbkvjrndfgkjbnvied",
+            link: "https://www.securityweek.com/wallet-drainer-malware-used-to-steal-500-million-in-cryptocurrency-in-2024/?utm_source=tldrinfosec",
+            timeToRead: 2
+        )
+    ]))
 }

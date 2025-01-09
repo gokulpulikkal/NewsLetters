@@ -163,7 +163,7 @@ extension HomeScreen {
 
                             Spacer()
 
-                            Text("\(item.timeToRead) min read")
+                            Text("\(item.timeToRead == 0 ? 1: item.timeToRead) min read")
                                 .font(.caption)
                                 .foregroundColor(Color(uiColor: .primaryText).opacity(0.7))
                         }

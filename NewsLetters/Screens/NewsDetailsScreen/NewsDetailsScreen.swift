@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NewsDetailsScreen: View {
     
+    @Environment(\.openURL) var openURL
+    
     @State
     var viewModel: ViewModel
     
@@ -55,7 +57,11 @@ extension NewsDetailsScreen {
                 .multilineTextAlignment(.leading)
                 .foregroundStyle(Color(uiColor: .primaryText))
 
-            Button(action: {}, label: {
+            Button(action: {
+                if let url = URL(string: viewModel.newsItem.link) {
+                    openURL(url)
+                }
+            }, label: {
                 HStack {
                     Text("Read more >")
                         .font(.callout)

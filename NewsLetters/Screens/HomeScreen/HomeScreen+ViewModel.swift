@@ -21,9 +21,19 @@ extension HomeScreen {
         var filteredNewsItems: [NewsItem]
         var selectedCategory: String
         var selectedDate: Date
-        var showProgressIndicator: Bool = true
+        var showProgressIndicator = true
         var isSearchActive = false
-        var searchText = ""
+        var searchText = "" {
+            didSet {
+                filterNewsItems(with: searchText)
+            }
+        }
+
+        var searchTask: Task<Void, Never>? {
+            willSet {
+                searchTask?.cancel()
+            }
+        }
 
         private var prevSelectedDate: Date?
 
@@ -89,7 +99,7 @@ extension HomeScreen {
             filteredNewsItems = newsItems
         }
 
-        func filterNewsItems() {
+        func filterNewsItemsWithCategory() {
             guard !selectedCategory.isEmpty else {
                 return
             }
@@ -99,6 +109,45 @@ extension HomeScreen {
                 Task {
                     filteredNewsItems = newsItems.filter { $0.category == selectedCategory }
                 }
+            }
+        }
+
+        func filterNewsItems(with searchKeyword: String) {
+            guard searchKeyword.count >= 3 else {
+                filterNewsItemsWithCategory()
+                return
+            }
+            let keyword = searchKeyword.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+
+            // If search is empty, reset to category-based filtering
+            guard !keyword.isEmpty else {
+                filterNewsItemsWithCategory()
+                return
+            }
+
+            searchTask = Task { @MainActor [weak self] in
+                guard let self else {
+                    return
+                }
+
+                let searchResults = await Task.detached { [
+                    newsItems = self.newsItems,
+                    selectedCategory = self.selectedCategory
+                ] in
+                    let categoryFiltered = selectedCategory == self.ALL_CATEGORY
+                        ? newsItems
+                        : newsItems.filter { $0.category == selectedCategory }
+
+                    return categoryFiltered.filter { item in
+                        item.heading.lowercased().contains(keyword) ||
+                            item.detailedNews.lowercased().contains(keyword)
+                    }
+                }.value
+
+                guard !Task.isCancelled else {
+                    return
+                }
+                filteredNewsItems = searchResults
             }
         }
     }

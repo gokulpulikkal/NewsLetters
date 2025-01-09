@@ -24,7 +24,7 @@ struct HomeScreen: View {
             viewModel.updateCategoriesAnNewsItems()
         }
         .onChange(of: viewModel.selectedCategory) {
-            viewModel.filterNewsItems()
+            viewModel.filterNewsItemsWithCategory()
         }
     }
 }
@@ -70,7 +70,7 @@ extension HomeScreen {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                                 viewModel.isSearchActive = false
                                 viewModel.searchText = ""
-                                viewModel.filterNewsItems()
+                                viewModel.filterNewsItemsWithCategory()
                             }
                         }) {
                             Image(systemName: "xmark.circle.fill")

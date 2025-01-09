@@ -52,7 +52,7 @@ extension HorizontalDatePicker {
         VStack {
             Text(weekDayFormatter.string(from: date).uppercased())
                 .font(.caption)
-                .foregroundColor(.gray)
+                .foregroundStyle(Color(UIColor.primaryAccent))
 
             ZStack {
                 if isSelected {

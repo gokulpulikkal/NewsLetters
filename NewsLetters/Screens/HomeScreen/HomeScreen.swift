@@ -58,12 +58,13 @@ extension HomeScreen {
                             .resizable()
                             .frame(width: 20, height: 20)
                             .fontWeight(.semibold)
+                            .foregroundStyle(Color(UIColor.primaryAccent))
                         TextField("Search", text: $viewModel.searchText)
                             .padding(6) // Add padding inside the text field
                             .cornerRadius(8) // Apply corner radius
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color(UIColor.label), lineWidth: 2)
+                                    .stroke(Color(UIColor.primaryAccent), lineWidth: 2)
                             )
                         Button(action: {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
@@ -76,7 +77,7 @@ extension HomeScreen {
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .fontWeight(.semibold)
-                                .foregroundStyle(Color(UIColor.label))
+                                .foregroundStyle(Color(UIColor.primaryAccent))
                         }
                         .transition(.scale.combined(with: .opacity))
                     }
@@ -84,7 +85,9 @@ extension HomeScreen {
                 } else {
                     Text("Newsletters")
                         .font(.system(size: 30, weight: .bold))
+                        .foregroundStyle(Color(UIColor.primaryAccent))
                         .transition(.move(edge: .leading).combined(with: .opacity))
+
                     Spacer()
                     HStack(spacing: 18) {
                         Button(action: {
@@ -96,6 +99,7 @@ extension HomeScreen {
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .fontWeight(.semibold)
+                                .foregroundStyle(Color(UIColor.primaryAccent))
                         })
                         .buttonStyle(.plain)
                         Button(action: {}, label: {
@@ -103,6 +107,7 @@ extension HomeScreen {
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .fontWeight(.semibold)
+                                .foregroundStyle(Color(UIColor.primaryAccent))
                         })
                         .buttonStyle(.plain)
                     }
@@ -125,6 +130,11 @@ extension HomeScreen {
             Color.primaryBackGround
                 .ignoresSafeArea()
                 .shadow(color: Color(UIColor.label).opacity(0.18), radius: 8, x: 0, y: 4)
+                .opacity(
+                    viewModel.categories.isEmpty
+                        ? 0
+                        : 1
+                )
         }
         .padding(.top, -15)
         .animation(.spring(response: 0.3, dampingFraction: 0.8), value: viewModel.categories)
@@ -138,31 +148,31 @@ extension HomeScreen {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(item.heading)
                             .font(.headline)
-                            .foregroundColor(Color(uiColor: .label))
+                            .foregroundColor(Color(uiColor: .primaryText))
                             .lineLimit(2)
 
                         Text(item.detailedNews)
                             .font(.subheadline)
-                            .foregroundColor(Color(uiColor: .label).opacity(0.8))
+                            .foregroundColor(Color(uiColor: .primaryText).opacity(0.8))
                             .lineLimit(3)
 
                         HStack {
                             Text(item.category)
                                 .font(.caption)
-                                .foregroundColor(Color(uiColor: .label).opacity(0.7))
+                                .foregroundColor(Color(uiColor: .primaryText).opacity(0.7))
 
                             Spacer()
 
                             Text("\(item.timeToRead) min read")
                                 .font(.caption)
-                                .foregroundColor(Color(uiColor: .label).opacity(0.7))
+                                .foregroundColor(Color(uiColor: .primaryText).opacity(0.7))
                         }
                     }
                     .padding()
                 }
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color(UIColor.label), lineWidth: 2)
+                        .stroke(Color(uiColor: .primaryAccent), lineWidth: 2)
                 )
             }
         }

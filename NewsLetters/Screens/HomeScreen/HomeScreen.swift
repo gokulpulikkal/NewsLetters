@@ -12,14 +12,21 @@ struct HomeScreen: View {
     @State var viewModel = ViewModel()
 
     var body: some View {
-        ZStack {
-            AutoHidingHeaderView(content: {
-                newsList()
-            }, header: {
-                customHeader()
+        NavigationStack {
+            ZStack {
+                AutoHidingHeaderView(content: {
+                    newsList()
+                }, header: {
+                    customHeader()
+                })
+                loadingIndicator
+            }
+            .navigationBarHidden(true)
+            .navigationDestination(for: NewsItem.self, destination: { newsItem in
+                NewsDetailsScreen(newsItem: newsItem)
             })
-            loadingIndicator
         }
+        .tint(Color(uiColor: .primaryAccent))
         .onChange(of: viewModel.selectedDate) {
             viewModel.updateCategoriesAnNewsItems()
         }
@@ -144,36 +151,39 @@ extension HomeScreen {
     func newsList() -> some View {
         LazyVStack(spacing: 18) {
             ForEach(viewModel.filteredNewsItems) { item in
-                ZStack(alignment: .leading) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(item.heading)
-                            .font(.headline)
-                            .foregroundColor(Color(uiColor: .primaryText))
-                            .lineLimit(2)
+                NavigationLink(value: item, label: {
+                    ZStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(item.heading)
+                                .font(.headline)
+                                .foregroundColor(Color(uiColor: .primaryText))
+                                .lineLimit(2)
 
-                        Text(item.detailedNews)
-                            .font(.subheadline)
-                            .foregroundColor(Color(uiColor: .primaryText).opacity(0.8))
-                            .lineLimit(3)
+                            Text(item.detailedNews)
+                                .font(.subheadline)
+                                .foregroundColor(Color(uiColor: .primaryText).opacity(0.8))
+                                .lineLimit(3)
 
-                        HStack {
-                            Text(item.category)
-                                .font(.caption)
-                                .foregroundColor(Color(uiColor: .primaryText).opacity(0.7))
+                            HStack {
+                                Text(item.category)
+                                    .font(.caption)
+                                    .foregroundColor(Color(uiColor: .primaryText).opacity(0.7))
 
-                            Spacer()
+                                Spacer()
 
-                            Text("\(item.timeToRead == 0 ? 1: item.timeToRead) min read")
-                                .font(.caption)
-                                .foregroundColor(Color(uiColor: .primaryText).opacity(0.7))
+                                Text("\(item.timeToRead == 0 ? 1 : item.timeToRead) min read")
+                                    .font(.caption)
+                                    .foregroundColor(Color(uiColor: .primaryText).opacity(0.7))
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color(uiColor: .primaryAccent), lineWidth: 2)
-                )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color(uiColor: .primaryAccent), lineWidth: 2)
+                    )
+                })
+                .buttonStyle(.plain)
             }
         }
         .padding()

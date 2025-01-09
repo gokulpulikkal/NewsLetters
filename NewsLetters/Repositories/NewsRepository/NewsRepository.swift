@@ -13,7 +13,7 @@ class NewsRepository: NewsRepositoryProtocol {
 
     let db = Firestore.firestore()
     let dateFormatter = DateFormatter()
-    
+
     init() {
         dateFormatter.dateFormat = "yyyy-MM-dd"
     }
@@ -23,33 +23,38 @@ class NewsRepository: NewsRepositoryProtocol {
         let newsCollection = db.collection("news")
 
         let docRef = newsCollection.document(dateString)
-        let cachedDocSnapshot = try await docRef.getDocument(source: .cache)
-
-        if let data = cachedDocSnapshot.data(), let categories = data["categories"] as? [String] {
-            return categories
+        do {
+            let cachedDocSnapshot = try await docRef.getDocument(source: .cache)
+            if let data = cachedDocSnapshot.data(), let categories = data["categories"] as? [String] {
+                return categories
+            }
+        } catch {
+            print("retrieving categories from catch failed!!")
         }
-
         let docSnapshot = try await docRef.getDocument(source: .server)
 
         if let data = docSnapshot.data(), let categories = data["categories"] as? [String] {
             return categories
         }
-
         return []
     }
 
     func getNewsItems(on date: Date) async throws -> [NewsItem] {
         let dateString = dateFormatter.string(from: date)
         let newsCollection = db.collection("news")
-        let cachedQuerySnapshot = try await newsCollection.document(dateString).collection("newsItems")
-            .getDocuments(source: .cache)
-        if !cachedQuerySnapshot.documents.isEmpty {
-            var newsItems: [NewsItem] = []
-            for document in cachedQuerySnapshot.documents {
-                let newsItem = try document.data(as: NewsItem.self)
-                newsItems.append(newsItem)
+        do {
+            let cachedQuerySnapshot = try await newsCollection.document(dateString).collection("newsItems")
+                .getDocuments(source: .cache)
+            if !cachedQuerySnapshot.documents.isEmpty {
+                var newsItems: [NewsItem] = []
+                for document in cachedQuerySnapshot.documents {
+                    let newsItem = try document.data(as: NewsItem.self)
+                    newsItems.append(newsItem)
+                }
+                return newsItems
             }
-            return newsItems
+        } catch {
+            print("retrieving news items from catch failed!!")
         }
         let querySnapshot = try await newsCollection.document(dateString).collection("newsItems")
             .getDocuments(source: .server)

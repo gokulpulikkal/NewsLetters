@@ -49,14 +49,13 @@ extension HomeScreen {
                     ? "exclamationmark.octagon.fill"
                     : "text.page.badge.magnifyingglass"
             )
-            .symbolEffect(.disappear, isActive: !viewModel.showProgressIndicator && !viewModel.categories.isEmpty)
             .symbolEffect(.bounce.up.byLayer, isActive: viewModel.showProgressIndicator)
             .font(.system(size: 60))
             Text("No Newsletters found for the date")
-                .opacity(viewModel.categories.isEmpty && !viewModel.showProgressIndicator ? 1 : 0)
                 .bold()
                 .font(.system(size: 20))
         }
+        .opacity(viewModel.categories.isEmpty && !viewModel.showProgressIndicator ? 1 : 0)
     }
 
     @ViewBuilder

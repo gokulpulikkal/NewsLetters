@@ -21,7 +21,10 @@ extension HomeScreen {
         var filteredNewsItems: [NewsItem]
         var selectedCategory: String
         var selectedDate: Date
-        var showProgressIndicator = true
+
+        // For now not showing any progress indicator as it too fast and
+        // showing as a glitch
+        var showProgressIndicator = false
         var isSearchActive = false
         var searchText = "" {
             didSet {
@@ -63,13 +66,11 @@ extension HomeScreen {
                 return
             }
             prevSelectedDate = selectedDate
-            showProgressIndicator = true
             Task {
                 await updateCategories()
                 if !categories.isEmpty { // no need to try getting news items if categories are empty
                     await updateNewsItems()
                 }
-                showProgressIndicator = false
             }
         }
 

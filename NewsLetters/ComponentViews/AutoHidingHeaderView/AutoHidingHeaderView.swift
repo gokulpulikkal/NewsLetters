@@ -17,12 +17,17 @@ struct AutoHidingHeaderView<Content: View, Header: View>: View {
     @State var lastHeaderOffset: CGFloat = 0
     @State var direction: SwipeDirections = .none
     @State var shiftOffset: CGFloat = 0
+    @State var contentOffset: CGFloat = 0
+
+    /// Add new state for tracking scroll gesture
+    @GestureState private var isScrolling = false
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             content
                 .padding(.top, headerHeight)
                 .offsetY { previous, current in
+                    contentOffset = current
                     if previous > current {
                         // UP
                         if direction != .up, current < 0 {
@@ -43,6 +48,26 @@ struct AutoHidingHeaderView<Content: View, Header: View>: View {
                         headerOffset = (offset > 0 ? 0 : offset)
                     }
                 }
+        }
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .updating($isScrolling) { _, state, _ in
+                    state = true
+                }
+        )
+        .onChange(of: isScrolling) { _, scrolling in
+            if !scrolling && direction == .down {
+                // When scrolling stops, check if header is partially visible
+                if contentOffset + headerHeight <= 0 {
+                    if headerOffset < 0, headerOffset > -headerHeight {
+                        withAnimation(.easeOut(duration: 0.2)) {
+                            // Hide the header if it's partially visible
+                            headerOffset = -headerHeight
+                            direction = .none
+                        }
+                    }
+                }
+            }
         }
         .coordinateSpace(name: "SCROLL")
         .overlay(alignment: .top) {

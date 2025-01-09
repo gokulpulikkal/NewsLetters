@@ -118,49 +118,52 @@ extension HomeScreen {
                 itemTitle: { $0 }
             )
             .padding(.bottom, 9)
+            .transition(.opacity)
         }
         .padding(.top, safeArea().top + 20)
         .background {
             Color.primaryBackGround
                 .ignoresSafeArea()
+                .shadow(color: Color(UIColor.label).opacity(0.18), radius: 8, x: 0, y: 4)
         }
         .padding(.top, -15)
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: viewModel.categories)
     }
 
     @ViewBuilder
     func newsList() -> some View {
-        LazyVStack {
+        LazyVStack(spacing: 18) {
             ForEach(viewModel.filteredNewsItems) { item in
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle(Color(uiColor: .fillColorWB))
-                        .frame(height: 140)
-
                     VStack(alignment: .leading, spacing: 8) {
                         Text(item.heading)
                             .font(.headline)
-                            .foregroundColor(Color(uiColor: .textColorBW))
+                            .foregroundColor(Color(uiColor: .label))
                             .lineLimit(2)
 
                         Text(item.detailedNews)
                             .font(.subheadline)
-                            .foregroundColor(Color(uiColor: .textColorBW).opacity(0.8))
-                            .lineLimit(2)
+                            .foregroundColor(Color(uiColor: .label).opacity(0.8))
+                            .lineLimit(3)
 
                         HStack {
                             Text(item.category)
                                 .font(.caption)
-                                .foregroundColor(Color(uiColor: .textColorBW).opacity(0.7))
+                                .foregroundColor(Color(uiColor: .label).opacity(0.7))
 
                             Spacer()
 
                             Text("\(item.timeToRead) min read")
                                 .font(.caption)
-                                .foregroundColor(Color(uiColor: .textColorBW).opacity(0.7))
+                                .foregroundColor(Color(uiColor: .label).opacity(0.7))
                         }
                     }
                     .padding()
                 }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color(UIColor.label), lineWidth: 2)
+                )
             }
         }
         .padding()

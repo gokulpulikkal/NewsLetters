@@ -9,8 +9,9 @@ import SwiftUI
 
 struct HomeScreen: View {
 
-    @State
-    var viewModel = ViewModel()
+    @State var viewModel = ViewModel()
+    @State private var isSearchActive = false
+    @State private var searchText = ""
 
     var body: some View {
         ZStack {
@@ -53,26 +54,54 @@ extension HomeScreen {
     func customHeader() -> some View {
         VStack(spacing: 10) {
             HStack {
-                Text("Today")
-                    .font(.system(size: 30, weight: .bold))
-                Spacer()
-                HStack(spacing: 18) {
-                    Button(action: {}, label: {
+                if isSearchActive {
+                    HStack {
                         Image(systemName: "magnifyingglass")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .fontWeight(.semibold)
-                    })
-                    .buttonStyle(.plain)
-                    Button(action: {}, label: {
-                        Image(systemName: "gearshape.fill")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .fontWeight(.semibold)
-                    })
-                    .buttonStyle(.plain)
+                            .foregroundColor(.gray)
+                        TextField("Search", text: $searchText)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        Button(action: {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                isSearchActive = false
+                                searchText = ""
+                                viewModel.filterNewsItems()
+                            }
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gray)
+                        }
+                        .transition(.scale.combined(with: .opacity))
+                    }
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
+                } else {
+                    Text("Today")
+                        .font(.system(size: 30, weight: .bold))
+                        .transition(.move(edge: .leading).combined(with: .opacity))
+                    Spacer()
+                    HStack(spacing: 18) {
+                        Button(action: {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                isSearchActive = true
+                            }
+                        }, label: {
+                            Image(systemName: "magnifyingglass")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .fontWeight(.semibold)
+                        })
+                        .buttonStyle(.plain)
+                        Button(action: {}, label: {
+                            Image(systemName: "gearshape.fill")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .fontWeight(.semibold)
+                        })
+                        .buttonStyle(.plain)
+                    }
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
                 }
             }
+            .frame(height: 30)
             .padding(.horizontal)
             HorizontalDatePicker(selectedDate: $viewModel.selectedDate)
             CategorySelectorView(

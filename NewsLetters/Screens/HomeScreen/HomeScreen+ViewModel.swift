@@ -22,6 +22,8 @@ extension HomeScreen {
         var selectedCategory: String
         var selectedDate: Date
         var showProgressIndicator: Bool = true
+        var isSearchActive = false
+        var searchText = ""
 
         private var prevSelectedDate: Date?
 

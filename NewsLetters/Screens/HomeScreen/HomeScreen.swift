@@ -10,8 +10,6 @@ import SwiftUI
 struct HomeScreen: View {
 
     @State var viewModel = ViewModel()
-    @State private var isSearchActive = false
-    @State private var searchText = ""
 
     var body: some View {
         ZStack {
@@ -54,21 +52,31 @@ extension HomeScreen {
     func customHeader() -> some View {
         VStack(spacing: 10) {
             HStack {
-                if isSearchActive {
+                if viewModel.isSearchActive {
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray)
-                        TextField("Search", text: $searchText)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .fontWeight(.semibold)
+                        TextField("Search", text: $viewModel.searchText)
+                            .padding(6) // Add padding inside the text field
+                            .cornerRadius(8) // Apply corner radius
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color(UIColor.label), lineWidth: 2)
+                            )
                         Button(action: {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                                isSearchActive = false
-                                searchText = ""
+                                viewModel.isSearchActive = false
+                                viewModel.searchText = ""
                                 viewModel.filterNewsItems()
                             }
                         }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.gray)
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color(UIColor.label))
                         }
                         .transition(.scale.combined(with: .opacity))
                     }
@@ -81,7 +89,7 @@ extension HomeScreen {
                     HStack(spacing: 18) {
                         Button(action: {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                                isSearchActive = true
+                                viewModel.isSearchActive = true
                             }
                         }, label: {
                             Image(systemName: "magnifyingglass")

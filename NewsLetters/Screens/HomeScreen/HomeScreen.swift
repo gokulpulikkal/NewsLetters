@@ -10,6 +10,8 @@ import SwiftUI
 struct HomeScreen: View {
 
     @State var viewModel = ViewModel()
+    @State private var vibrateOnRing = false
+    @State private var isSettingMenuPresented = false
 
     var body: some View {
         NavigationStack {
@@ -112,14 +114,22 @@ extension HomeScreen {
                                 .foregroundStyle(Color(UIColor.primaryAccent))
                         })
                         .buttonStyle(.plain)
-                        Button(action: {}, label: {
+                        Button(action: {
+                            isSettingMenuPresented.toggle()
+                        }, label: {
                             Image(systemName: "gearshape.fill")
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(Color(UIColor.primaryAccent))
                         })
-                        .buttonStyle(.plain)
+                        .popover(isPresented: $isSettingMenuPresented) {
+                            Toggle("", isOn: $vibrateOnRing)
+                                .toggleStyle(DarkModeToggleStyle())
+                                .scaleEffect(0.8)
+                                .padding()
+                                .presentationCompactAdaptation(.popover)
+                        }
                     }
                     .transition(.move(edge: .trailing).combined(with: .opacity))
                 }

@@ -22,7 +22,7 @@ https://github.com/user-attachments/assets/8f928eb4-325f-4fd5-8daa-c31b6a8c0d1f
    - Categorizes news items
    - Extracts key information and context
 
-3. **Flask Backend**
+3. **Flask Backend** [Check it out](https://github.com/gokulpulikkal/NewsLetters-Summarizer-backend)
    - Python-based server handling data processing
    - Manages data write operation to Firebase
    - Processes and structures the data

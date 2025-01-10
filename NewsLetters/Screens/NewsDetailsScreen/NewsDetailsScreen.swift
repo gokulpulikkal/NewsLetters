@@ -22,7 +22,7 @@ struct NewsDetailsScreen: View {
                     Color.clear
                         .onChange(of: offset) { _, newValue in
                             withAnimation {
-                                showTitle = newValue < -50
+                                showTitle = newValue < 0
                             }
                         }
                 }
@@ -115,7 +115,7 @@ extension NewsDetailsScreen {
             .buttonStyle(.plain)
             .padding(.vertical)
         }
-        .padding()
+        .padding(.horizontal)
     }
 }
 

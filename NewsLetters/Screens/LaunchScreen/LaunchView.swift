@@ -12,14 +12,19 @@ struct LaunchView: View {
     @State private var viewModel = ViewModel()
 
     var body: some View {
-        if viewModel.isLoading {
-            splashScreen
-                .task {
-                    await viewModel.cacheLatestNewsItems()
-                }
-        } else {
-            HomeScreen()
+        ZStack {
+            if viewModel.isLoading {
+                splashScreen
+                    .transition(.opacity)
+                    .task {
+                        await viewModel.cacheLatestNewsItems()
+                    }
+            } else {
+                HomeScreen()
+                    .transition(.move(edge: .trailing))
+            }
         }
+        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: viewModel.isLoading)
     }
 }
 

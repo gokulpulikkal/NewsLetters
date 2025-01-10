@@ -68,7 +68,8 @@ extension HorizontalDatePicker {
         }
         .frame(width: 50)
         .onTapGesture {
-            withAnimation(.spring(duration: 0.3)) { // Add animation
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            withAnimation(.spring(duration: 0.15)) { // Add animation
                 selectedDate = date
             }
         }

@@ -31,7 +31,8 @@ struct CategorySelectorView<T: Hashable>: View {
             HStack(spacing: 10) {
                 ForEach(items, id: \.self) { item in
                     Button(action: {
-                        withAnimation(.spring(duration: 0.3)) {
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        withAnimation(.spring(duration: 0.15)) {
                             selectedItem = item
                         }
                     }, label: {

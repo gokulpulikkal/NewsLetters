@@ -8,25 +8,63 @@
 import SwiftUI
 
 struct NewsDetailsScreen: View {
-    
     @Environment(\.openURL) var openURL
-    
-    @State
-    var viewModel: ViewModel
-    
+    @Environment(\.dismiss) private var dismiss
+    @State var viewModel: ViewModel
+    @State private var showTitle = false
+
     var body: some View {
         ScrollView(showsIndicators: false) {
-            newsDetailsView
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("Realated")
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundStyle(Color(uiColor: .primaryText))
-                    Spacer()
+            VStack(spacing: 0) {
+                // Workaround only for showing the title on navBar on scrolling
+                GeometryReader { geometry in
+                    let offset = geometry.frame(in: .global).minY
+                    Color.clear
+                        .onChange(of: offset) { _, newValue in
+                            withAnimation {
+                                showTitle = newValue < -50
+                            }
+                        }
                 }
-                NewsListView(newsItems: viewModel.getRelatedNewsItems())
+
+                newsDetailsView
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("Related")
+                            .font(.system(size: 22, weight: .semibold))
+                            .foregroundStyle(Color(uiColor: .primaryText))
+                        Spacer()
+                    }
+                    NewsListView(newsItems: viewModel.getRelatedNewsItems())
+                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 16, weight: .semibold))
+                        Text("Back")
+                            .font(.system(size: 16, weight: .semibold))
+                    }
+                    .foregroundStyle(Color(uiColor: .primaryAccent))
+                }
+            }
+
+            ToolbarItem(placement: .principal) {
+                if showTitle {
+                    Text(viewModel.newsItem.heading)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .transition(.opacity)
+                }
+            }
         }
     }
 }

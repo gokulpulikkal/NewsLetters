@@ -3,6 +3,10 @@
 ## Project Overview
 NewsLetters is an automated news aggregation system that transforms daily newsletter emails into a structured, categorized news feed. The system combines Gmail automation, AI-powered content analysis, and a mobile app interface for seamless news consumption.
 
+
+https://github.com/user-attachments/assets/8f928eb4-325f-4fd5-8daa-c31b6a8c0d1f
+
+
 ## System Architecture
 
 ### Backend Components

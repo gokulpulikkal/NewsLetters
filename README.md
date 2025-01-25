@@ -1,4 +1,4 @@
-# NewsLetters - Automated News Aggregation System
+# NewsLetters - Automated AI News Aggregation System
 
 ## Project Overview
 NewsLetters is an automated news aggregation system that transforms daily newsletter emails into a structured, categorized news feed. The system combines Gmail automation, AI-powered content analysis, and a mobile app interface for seamless news consumption.
